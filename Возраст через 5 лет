@@ -1,0 +1,13 @@
+def age ():
+    name = input('Введите свое имя ')
+    last_name = input(f'{name}' + ', приятно познакомиться! Назови свою фамилию ')
+    print('Спасибо!')
+    while True:
+        try:
+            vozrast = int(input('Сколько тебе лет?'))
+            break
+        except ValueError:
+            print('Неверно! Нужно ввести число')
+    print(f'Через 5 лет тебе будет {vozrast + 5}')
+
+age()
