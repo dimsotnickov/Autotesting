@@ -1,0 +1,9 @@
+def password():
+    while True:
+        parol = input('Введите пароль: ')
+        if parol == '12345':
+            print('Авторизация успешна')
+            break
+        else:
+            print('Пароль неверный')
+password()
