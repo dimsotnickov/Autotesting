@@ -1,0 +1,51 @@
+###
+Тот же калькулятор, но в конце у нас проверка, соответствует ли результат, полученный при вычислении нужному для успешного прохождения теста
+###
+
+
+### Проверяем вводимое число
+def is_int(value):
+    while True:
+        try:
+            return int(input(value))
+        except ValueError:
+            print('Нужно ввести положительное числовое значение')
+
+### Проверяем вводимый знак операции
+def is_symbol(value):
+    znak = input(value)
+    while True:
+        if znak in ('+','-','*','/'):
+            return znak
+        else:
+            print('Такого символа нет')
+
+### Считаем
+def calc():
+        first_number = is_int('Введите первое число: ')
+        second_number = is_int('Введите второе число: ')
+        znak = is_symbol('Введите операцию: ')
+        if znak == '+':
+            return (first_number + second_number)
+        elif znak == '-':
+            return (first_number - second_number)
+        elif znak == '*':
+            return (first_number * second_number)
+        elif znak == '/':
+            if second_number == 0:
+                return ('Деление на ноль невозможно')
+            else:
+                return (first_number / second_number)
+
+def qa():
+    while True:
+        result = calc()
+        if result == 12:
+            print('OK')
+            break
+        else:
+            print('Тест не пройден')
+            break
+
+
+qa()
