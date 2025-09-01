@@ -1,0 +1,32 @@
+def is_int(value):
+    while True:
+        try:
+            return int(input(value))
+        except ValueError:
+            print('Нужно ввести положительное числовое значение')
+
+def is_symbol(kek):
+    znak = input(kek)
+    while True:
+        if znak in ('+','-','*','/'):
+            return znak
+        else:
+            print('Такого символа нет')
+
+def calc():
+        first_number = is_int('Введите первое число: ')
+        second_number = is_int('Введите второе число: ')
+        znak = is_symbol('Введите операцию: ')
+        if znak == '+':
+            print(first_number + second_number)
+        elif znak == '-':
+            print(first_number - second_number)
+        elif znak == '*':
+            print(first_number * second_number)
+        elif znak == '/':
+            if second_number == 0:
+                print('Деление на ноль невозможно')
+            else:
+                print(first_number / second_number)
+
+calc()
