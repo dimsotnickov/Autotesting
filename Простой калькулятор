@@ -1,3 +1,4 @@
+### Проверяем вводимое число
 def is_int(value):
     while True:
         try:
@@ -5,14 +6,16 @@ def is_int(value):
         except ValueError:
             print('Нужно ввести положительное числовое значение')
 
-def is_symbol(kek):
-    znak = input(kek)
+### Проверяем вводимый знак операции
+def is_symbol(value):
+    znak = input(value)
     while True:
         if znak in ('+','-','*','/'):
             return znak
         else:
             print('Такого символа нет')
 
+### Считаем 
 def calc():
         first_number = is_int('Введите первое число: ')
         second_number = is_int('Введите второе число: ')
