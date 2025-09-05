@@ -1,0 +1,54 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+### Открываем страницу
+def open_page(browser, url):
+    browser.get(url)
+    time.sleep(3)
+
+### Переходим в раздел Регистрация
+def go_to_registration(browser):
+    link_register = browser.find_element(By.CSS_SELECTOR, "a[href='register.htm']")
+    link_register.click()
+    time.sleep(2)
+
+### Заполняем основные поля
+def fill_registration_fields(browser, first_name, last_name, address, city):
+    field_first_name = browser.find_element(By.CSS_SELECTOR, "input[id='customer.firstName']")
+    field_first_name.send_keys(first_name)
+
+    field_last_name = browser.find_element(By.CSS_SELECTOR, "input[id='customer.lastName']")
+    field_last_name.send_keys(last_name)
+
+    field_address = browser.find_element(By.CSS_SELECTOR, "input[id='customer.address.street']")
+    field_address.send_keys(address)
+
+    field_city = browser.find_element(By.CSS_SELECTOR, "input[id='customer.address.city']")
+    field_city.send_keys(city)
+
+    time.sleep(3)
+
+
+if __name__ == "__main__":
+    browser = webdriver.Chrome()
+    browser.maximize_window()
+
+    try:
+        # 1. Открываем сайт
+        open_page(browser, "https://parabank.parasoft.com/")
+
+        # 2. Переходим на страницу регистрации
+        go_to_registration(browser)
+
+        # 3. Заполняем форму
+        fill_registration_fields(
+            browser,
+            first_name="Димка",
+            last_name="Картинка",
+            address="Улица Пушкина, дом Колотушкина",
+            city="Москва"
+        )
+    finally:
+        # 4. Закрываем браузер
+        browser.quit()
