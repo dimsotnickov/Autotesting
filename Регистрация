@@ -1,33 +1,56 @@
 import time
+import random
+import string
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-### Открываем страницу
+### Открываем браузер и страницу
 def open_page(browser, url):
     browser.get(url)
     time.sleep(3)
 
 ### Переходим в раздел Регистрация
 def go_to_registration(browser):
-    link_register = browser.find_element(By.CSS_SELECTOR, "a[href='register.htm']")
-    link_register.click()
+    browser.find_element(By.CSS_SELECTOR, "a[href='register.htm']").click()
     time.sleep(2)
 
-### Заполняем основные поля
-def fill_registration_fields(browser, first_name, last_name, address, city):
-    field_first_name = browser.find_element(By.CSS_SELECTOR, "input[id='customer.firstName']")
-    field_first_name.send_keys(first_name)
+### Заполняет одно поле по CSS-селектору
+def fill_field(browser, selector, value):
+    field = browser.find_element(By.CSS_SELECTOR, selector)
+    field.send_keys(value)
 
-    field_last_name = browser.find_element(By.CSS_SELECTOR, "input[id='customer.lastName']")
-    field_last_name.send_keys(last_name)
-
-    field_address = browser.find_element(By.CSS_SELECTOR, "input[id='customer.address.street']")
-    field_address.send_keys(address)
-
-    field_city = browser.find_element(By.CSS_SELECTOR, "input[id='customer.address.city']")
-    field_city.send_keys(city)
-
+### Заполняет все поля формы регистрации
+def fill_registration_form(browser, data):
+    """Заполняет все поля формы регистрации"""
+    fill_field(browser, "input[id='customer.firstName']", data["first_name"])
+    fill_field(browser, "input[id='customer.lastName']", data["last_name"])
+    fill_field(browser, "input[id='customer.address.street']", data["address"])
+    fill_field(browser, "input[id='customer.address.city']", data["city"])
+    fill_field(browser, "input[id='customer.address.state']", data["state"])
+    fill_field(browser, "input[id='customer.address.zipCode']", data["zip"])
+    fill_field(browser, "input[id='customer.phoneNumber']", data["phone"])
+    fill_field(browser, "input[id='customer.ssn']", data["ssn"])
+    fill_field(browser, "input[id='customer.username']", data["username"])
+    fill_field(browser, "input[id='customer.password']", data["password"])
+    fill_field(browser, "input[id='repeatedPassword']", data["password"])
+    
+### Клик по регистрации
+def submit_registration(browser):
+    browser.find_element(By.CSS_SELECTOR, '[value="Register"]').click()
     time.sleep(3)
+
+### Проверка, что регистрация прошла успешно
+def check_registration(browser):
+    """Проверяет успешность регистрации по URL"""
+    if browser.current_url == "https://parabank.parasoft.com/parabank/register.htm":
+        print("Регистрация успешна")
+    else:
+        print("Регистрация не удалась, текущий URL:", browser.current_url)
+
+### Генерация уникального юзернейма
+def generate_username(base="dimka"):
+    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+    return f"{base}_{suffix}"
 
 
 if __name__ == "__main__":
@@ -35,20 +58,27 @@ if __name__ == "__main__":
     browser.maximize_window()
 
     try:
-        # 1. Открываем сайт
         open_page(browser, "https://parabank.parasoft.com/")
-
-        # 2. Переходим на страницу регистрации
         go_to_registration(browser)
 
-        # 3. Заполняем форму
-        fill_registration_fields(
-            browser,
-            first_name="Димка",
-            last_name="Картинка",
-            address="Улица Пушкина, дом Колотушкина",
-            city="Москва"
-        )
+        user_data = {
+            "first_name": "Димка",
+            "last_name": "Картинка",
+            "address": "Улица Пушкина, дом Колотушкина",
+            "city": "Москва",
+            "state": "Московская область",
+            "zip": "0000",
+            "phone": "+123",
+            "ssn": "0000",
+            "username": generate_username(),  # уникальный username при каждом запуске
+            "password": "pepe",
+        }
+
+        fill_registration_form(browser, user_data)
+        submit_registration(browser)
+        check_registration(browser)
+
     finally:
-        # 4. Закрываем браузер
+        time.sleep(10)
         browser.quit()
+
