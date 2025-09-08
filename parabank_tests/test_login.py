@@ -1,13 +1,7 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-options = Options()
-options.add_argument("--headless=new")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-
-browser = webdriver.Chrome(options=options)
-
+from selenium.webdriver.common.by import By
 from main import open_page, go_to_registration, fill_registration_form, submit_registration, generate_username
 
 # --- Настройка браузера для GitHub Actions ---
@@ -17,7 +11,7 @@ def get_browser():
     чтобы он работал на GitHub Actions (без графического интерфейса).
     """
     options = Options()
-    options.add_argument("--headless")  # без графического интерфейса
+    options.add_argument("--headless=new")  # без графического интерфейса
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     return webdriver.Chrome(options=options)
@@ -67,7 +61,7 @@ def test_login():
             "zip": "0000",
             "phone": "+123",
             "ssn": "0000",
-            "username": generate_username(),  # уникальный username при каждом запуске
+            "username": generate_username(),
             "password": "pepe",
         }
 
@@ -88,4 +82,3 @@ def test_login():
 
     finally:
         browser.quit()
-
