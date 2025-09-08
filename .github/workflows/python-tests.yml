@@ -1,24 +1,37 @@
-name: Python application tests
+name: Python tests
 
-on: [push, pull_request]
+on:
+  push:        # запускать при каждом пуше
+    branches: [ main ]
+  pull_request: # запускать при каждом PR в main
+    branches: [ main ]
+  workflow_dispatch: # запуск вручную из GitHub Actions
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'   # можно поменять на нужную версию
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install selenium pytest
 
-      - name: Run tests
-        run: |
-          pytest
+    - name: Install Chrome and Chromedriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y chromium-browser chromium-chromedriver
+        which chromium-browser
+        which chromedriver
+
+    - name: Run tests
+      run: |
+        pytest parabank_tests/test_login.py -v
