@@ -1,0 +1,15 @@
+from random import *
+
+number_pc = randint(1, 100)
+
+number = int(input("Введите число от 1 до 100 "))
+
+while number != number_pc:
+    if number > number_pc:
+        print("Слишком много, попробуйте меньше")
+    if number < number_pc:
+        print("Слишком мало, попробуйте больше")
+    number = int(input("Введите число от 1 до 100 "))
+
+
+print("Угадал!")
