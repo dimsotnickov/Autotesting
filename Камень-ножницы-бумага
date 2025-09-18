@@ -1,0 +1,62 @@
+# Камень, ножницы, бумага
+
+import random
+
+rock = "камень"
+scissors = "ножницы"
+papper = "бумага"
+
+count_igr = 0
+count_pc = 0
+
+list = ['камень', 'ножницы', 'бумага']
+hod = random.choice(list)
+
+print("Добро пожаловать в игру! Представься, пожалуйста")
+name = input()
+print("Очень приятно,", name+"!")
+
+while True:
+
+    user_input = input(
+        "Если готов - сделай свой ход и выбери свое оружие в этом раунде - камень, ножницы или бумагу \n")
+    if (user_input.lower() == hod):
+        print("Соперник выбрал", hod)
+        print("Ничья! \n")
+        count_igr += 1
+        count_pc += 1
+
+    elif (user_input.lower() == 'бумага' and hod == "камень"):
+        print("Соперник выбрал", hod)
+        print("Ты победил \n")
+        count_igr += 1
+
+    elif (user_input.lower() == 'камень' and hod == "бумага"):
+        print("Соперник выбрал", hod)
+        print("Ты проиграл \n")
+        count_pc += 1
+
+    elif (user_input.lower() == 'ножницы' and hod == "камень"):
+        print("Соперник выбрал", hod)
+        print("Ты проиграл \n")
+        count_pc += 1
+
+    elif (user_input.lower() == 'ножницы' and hod == "бумага"):
+        print("Соперник выбрал", hod)
+        print("Ты победил \n")
+        count_igr += 1
+    else:
+        print("Такого варианта нет, попробуй снова, \n")
+
+    if(count_igr < 5):
+        if(count_igr == 0):
+            print(count_igr, "очков на твоем счету", count_pc, "заработал робот. \n")
+        if (count_igr == 1):
+            print(count_igr, "очко на твоем счету", count_pc, "заработал робот. \n")
+        if(count_igr > 1):
+            print(count_igr, "очка на твоем счету,", count_pc, "заработал робот. \n")
+
+    user_input = input("Сыграем еще? \n")
+    if (user_input.lower() != "да"):
+        print("Приятно было поиграть, до скорого!")
+        break
