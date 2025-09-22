@@ -1,0 +1,40 @@
+import math
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+
+### Открываем страницу
+browser = webdriver.Chrome()
+link = browser.get("https://suninjuly.github.io/execute_script.html")
+
+### Функция для расчета выражения на странице
+def calc(x):
+    return str(math.log(abs(12*math.sin(int(x)))))
+
+### Получение значения х для расчета
+x = browser.find_element(By.CSS_SELECTOR, '[id="input_value"]')
+
+result = calc(x.text)
+
+### Ввод результата вычисления в поле
+pole = browser.find_element(By.CSS_SELECTOR, "[class='form-control']")
+pole.send_keys(result)
+
+
+### Кликаем по чек-боксу (находящемуся в зоне видимости)
+check_box = browser.find_element(By.CSS_SELECTOR, '[id="robotCheckbox"]').click()
+
+### Кликаем по радио-баттону (скрытому за футтером)
+radio = browser.find_element(By.CSS_SELECTOR, '[id="robotsRule"]')
+
+### Скрипт для поиска элемента, скрытого за другим элементом
+browser.execute_script("return arguments[0].scrollIntoView(true);", radio)
+
+radio.click()
+
+
+knopka = browser.find_element(By.CSS_SELECTOR, '[class="btn btn-primary"]')
+
+browser.execute_script("return arguments[0].scrollIntoView(true);", knopka)
+
+knopka.click()
