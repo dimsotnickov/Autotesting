@@ -17,7 +17,7 @@ def check_login(browser):
     else:
         print("Логин не удался, текущий URL:", browser.current_url)
 
-browser = webdriver.Chrome()
+browser = webdriver.Chrome(options=options)
 browser.maximize_window()
 
 try:
@@ -58,3 +58,4 @@ try:
 
 finally:
     browser.quit()
+
